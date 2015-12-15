@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Simple Todo App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular.min.js">
+    </script>
+    <script type="text/javascript">
+    angular.module("sampleTodoApp", [])
+    .controller("todoController", ['$scope', function($scope){
+        $scope.todos = [{title: "Do This!"},
+                        {title: "And this"},
+                        {title: "And also this"}]
+
+        $scope.newTodo = ''
+
+        $scope.addNewTodo = function(){
+            $scope.todos.push({title: $scope.newTodo})
+            $scope.newTodo = ''
+        }
+    }])
+    </script>
+</head>
+<body>
+<div ng-app="sampleTodoApp">
+    <div class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">A slightly more Awesome Todo App</a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" ng-controller="todoController">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="list-group">
+                        <div class="list-group-item" ng-repeat="todo in todos">
+                            <label>{{todo.title}}</label>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="new Todo" ng-model="newTodo">
+                                <button type="button" class="btn btn-primary" ng-click="addNewTodo()" >Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
