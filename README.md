@@ -128,7 +128,7 @@ now lets add a text input to add more todo's to the list. Add the following belo
 
 now to activate the form. We'll bind the text input to a variable in our $scope, and the button to a function defined in the scope:
 
-in the <script> tag, todoController
+in the `<script>` tag, todoController
 ```html 
 $scope.newTodo = ''
 
@@ -138,7 +138,7 @@ $scope.addNewTodo = function(){
 }
 ```
 
-change the <input> and <button> to this:
+change the `<input>` and `<button>` to this:
 ```html 
 <input type="text" class="form-control" placeholder="new Todo" ng-model="newTodo">
 <button type="button" class="btn btn-primary" ng-click="addNewTodo()" >Add</button>
