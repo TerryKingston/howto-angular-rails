@@ -26,19 +26,20 @@ make a file called index.html and add this:
 </html>
 ```
 
-open the file in the browser and Tada! you have a web page
+open the file in the browser and Tada! you have a web page. (I know, not quite what you were expecting, but we'll make it cooler very soon).
 
 ## Bootstrap
 
-Now lets add some style to this app. We'll take the easy road and just use bootstrap CDN found [here](http://getbootstrap.com/getting-started/)
-Add this between the <head> and </head> of index.html
+Now lets add some style to this app. We'll take the easy road and just use the CSS/Javascript library [Bootstrap](http://getbootstrap.com/). With an actual site you will want to consider using your own CSS theme, but the approach used by Bootstrap is a good way to develop your own theme so I suggest trying Bootstrap at first to get a feel for how you might want to do things yourself. 
+
+For now, we'll use a source available on the web found [here](http://getbootstrap.com/getting-started/), and later we'll serve our own copy of Bootstrap source from our server.
+
+Add the following between the <head> and </head> of index.html
 ```
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 ```
 
-Note: In production you probably want to provide this from your own site, but we'll start with this approach to get things moving
-
-Now we can add the prepackaged classes provided by bootstrap to our html components to infuse them with style! I'll also add a nav bar to make things look nicer.
+Now we can add the prepackaged classes provided by bootstrap to our html components to infuse them with style! I'll also add a nav bar to make things look a little nicer.
 
 The result looks like this:
 ```html
@@ -73,9 +74,11 @@ The result looks like this:
 </html>
 ```
 
+Refresh the page in your browser and behold the sort-of-awesome style!
+
 ## Angular
 
-Now lets make this static page more responsive by adding angular. We'll add a text box to add more todo's to the list. to do this, we'll move the list of tasks from the static HTML to a list in the javascript portion of the page.
+Great! we have an HTML page with a list of items and no way to modify it. Now lets make this static page more responsive by adding angular. Instead of rendering a bunch of labels, we'll let Angular make our list based on an array of todo objects. We'll also add a text box to add more todo's to the list. We'll start by moving the list of tasks from the static HTML to a list in the javascript portion of the page.
 
 We'll bring in the angular code via CDN:
 ```html
@@ -96,13 +99,21 @@ Then add our app and controller directives
 </script>
 ```
 
+This code says: "Angular, make a module and call it 'sampleTodoApp', then attach a controller to that module called 'todoController', then, when the appropriate html appears on the page run this function (the one with `function($scope){ ... }`" I'll talk more about the details as we go along.
+
+Angular needs to know when it should care about a web page and what portion it should worry about. We tell Angular this by adding the directive `ng-app` to some html element. This tells Angular to 'compile' the stuff inside the element. The value of `ng-app` should match the name of our module declared above:
+
 ```html
 <body ng-app="sampleTodoApp">
 ```
 
+Because we could have multiple controllers for various portions of our html page, we have to tell angular what controller should govern what portion of the html. we do this with the `ng-controller` directive. 
+
 ```html
 <div class="container-fluid" ng-controller="todoController">
 ```
+
+Note: Later, you might agree with many [other developers](http://teropa.info/blog/2014/10/24/how-ive-improved-my-angular-apps-by-banning-ng-controller.html) and decide to ban the use of ng-controller for custom directives instead, but thats a lesson for another day.
 
 now we can change the html list to make the list based on the data in $scope.todos declared above:
 ```html
@@ -112,6 +123,8 @@ now we can change the html list to make the list based on the data in $scope.tod
     </div>
 </div>
 ```
+
+the `ng-repeat` directive above says, "Loop through the objects in the list called 'todos' and, one at a time assign them to the variable 'todo', then repeat this element for each one". This will repeat the `<div>` element as many times as there are todos in the list.
 
 now lets add a text input to add more todo's to the list. Add the following below the </div> of the list-group:
 ```html
@@ -138,11 +151,16 @@ $scope.addNewTodo = function(){
 }
 ```
 
+The $scope variable represents the data and functions available to the html within the controller's scope (html inside the element with the ng-controller="todoController"). We can add data and functions in the JS and it automatically becomes available to the HTML within the controller's scope.
+
 change the `<input>` and `<button>` to this:
 ```html 
 <input type="text" class="form-control" placeholder="new Todo" ng-model="newTodo">
 <button type="button" class="btn btn-primary" ng-click="addNewTodo()" >Add</button>
 ```
+
+The `ng-model` above says "whatever is in the variable $scope.newTodo make the text in this input match, and if the user changes this text you should also change the value of the variable"
+The `ng-click` above is similar to the regular `click` attribute except it doesn't fire until Angular has finished compiling the html and javascript. `ng-click` will look in the $scope for the function it's given.
 
 Heres the full page so far:
 ```html
