@@ -210,14 +210,17 @@ now, lets get the backend going. After installing [RVM](https://rvm.io/rvm/insta
 rails new sample-todo
 ```
 
-Before we continue, we'll tell Rails not to use CoffeeScript for its JS files. We do this by commenting out the CoffeeScript Gem in the gem file. Find the file `sample-todo` and comment out the line:
+This creates a bunch of files for us in the root directory sample-todo
+
+Before we continue, we'll tell Rails not to use CoffeeScript for its JS files. We do this by commenting out the CoffeeScript Gem in the gem file. Find the file `sample-todo/Gemfile` and comment out the line:
 ```ruby
 gem 'coffee-rails', '~> 4.1.0'
 ```
 
-This creates a bunch of files for us. now lets make our TODO models, views and controllers
+now lets make our TODO models, views and controllers. We'll use Rails' built in scaffolding system to generate a bunch of default files to get us going quickly.
 
 ```bash
+cd sample-todo
 rails generate scaffold todo title:text completed_at:datetime
 ```
 
